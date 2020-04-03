@@ -18,13 +18,13 @@
           <home-recommend></home-recommend>
         </view>
         <view v-if="current === 1">
-          <home-new />
+          <home-category />
         </view>
         <view v-if="current === 2">
-          <home-album />
+          <home-new />
         </view>
         <view v-if="current === 3">
-          <home-category />
+          <home-album />
         </view>
       </view>
     </view>
@@ -68,7 +68,7 @@ export default {
     this.request ({
       url:"http://157.122.54.189:9088/image/v3/homepage/vertical"
     }).then(res=>{
-      console.log(res);
+      // console.log(res);
       
     })
   }

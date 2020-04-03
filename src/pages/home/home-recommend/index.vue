@@ -2,30 +2,31 @@
   <scroll-view @scrolltolower="handleToLower" class="recommends_view" scroll-y v-if="recommends.length>0">
     <!-- 推荐 开始 -->
     <view class="recommend_wrap">
-      <view 
+      <navigator 
         class="recommend_item"
         v-for="item in recommends"
         :key="item.id"
+        :url="`/pages/album/index?id=${item.target}`"
       >
         <image :src="item.thumb" mode="widthFix"></image>
 
-      </view>
+      </navigator>
     </view>
     <!-- 月份 开始 -->
-    <view class="monthes_wrap">
-       <view class="monthes_title">
-         <view class="monthes_title_info">
-           <view class="monthes_info">
-             <text> {{monthes.DD}} / </text>
-             {{monthes.MM}} 月
+    <view class="months_wrap">
+       <view class="months_title">
+         <view class="months_title_info">
+           <view class="months_info">
+             <text> {{months.DD}} / </text>
+             {{months.MM}} 月
            </view>
-           <view class="monthes_text">{{monthes.title}}</view>
+           <view class="months_text">{{months.title}}</view>
          </view>
-         <view class="monthes_title_more">更多 > </view>
+         <view class="months_title_more">更多 > </view>
        </view>
-       <view class="monthes_content">
-         <view class="monthes_item"
-         v-for="item in monthes.items"
+       <view class="months_content">
+         <view class="months_item"
+         v-for="item in months.items"
          :key="item.id"
          >
          <image :src="item.thumb+item.rule.replace('$<Height>',360)" mode="aspectFill"></image>
@@ -56,7 +57,7 @@ export default {
   data(){
     return{
       recommends:[],
-      monthes:{},
+      months:{},
       hots: [],
       // 请求的参数
       params: {
@@ -83,16 +84,20 @@ export default {
       // 判断还有没有下一页数据
       if (result.res.vertical.length === 0){
         this.hasMore=false;
+        uni.showToast({
+          title:"没有更多数据了",
+          icon: "none"
+        });
         return;
       }
       
       if (this.recommends.length === 0) {
         this.recommends = result.res.homepage[1].items;
-        this.monthes = result.res.homepage[2];
+        this.months = result.res.homepage[2];
         // 将时间戳改成 18号/月 moment.js
-        this.monthes.MM=moment(this.monthes.stime).format("MM");
-        this.monthes.DD=moment(this.monthes.stime).format("DD");
-        // console.log(this.monthes);
+        this.months.MM=moment(this.months.stime).format("MM");
+        this.months.DD=moment(this.months.stime).format("DD");
+        // console.log(this.months);
       }
       
       // 获取热门数据的列表
@@ -132,34 +137,38 @@ export default {
       border: 5rpx soild #fff;
     }
   }
-  .monthes_wrap {
-  .monthes_title {
+  .months_wrap {
+  .months_title {
     display: flex;
     justify-content: space-between;
     padding: 20rpx;
-    .monthes_title_info {
+    .months_title_info {
       color: $color;
       font-size: 30rpx;
       font-weight: 600;
       display: flex;
-       
-      .monthes_text {
+      .months_info {
+        text {
+          font-size: 36rpx;
+        }
+      }
+      .months_text {
         font-size: 34rpx;
           color: #666;
           margin-left: 30rpx;
       }
     }
 
-    .monthes_title_more {
+    .months_title_more {
       font-size: 24rpx;
       color: $color;
     }
   }
 
-  .monthes_content {
+  .months_content {
       display: flex;
       flex-wrap: wrap;
-      .monthes_item{
+      .months_item{
         width: 50%;
         border: 5rpx soild #FFF;
       }
