@@ -10,6 +10,7 @@
     </view>
     <!-- 列表 -->
     <view class="album_list">
+      <!-- navigator相当于a标签 -->
       <navigator class="album_item" v-for="item in album" :key="item.id" :url="`/pages/album/index?id=${item.id}`">
         <view class="album_img">
           <image :src="item.cover" mode="aspectFill"></image>

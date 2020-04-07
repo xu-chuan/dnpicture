@@ -26,10 +26,12 @@
        </view>
        <view class="months_content">
          <view class="months_item"
-         v-for="item in months.items"
+         v-for="(item,index) in months.items"
          :key="item.id"
          >
-         <image :src="item.thumb+item.rule.replace('$<Height>',360)" mode="aspectFill"></image>
+         <go-detail :list="months.items" :index="index">
+          <image :src="item.thumb+item.rule.replace('$<Height>',360)" mode="aspectFill"></image>
+         </go-detail> 
          </view> 
        </view>
     </view>
@@ -40,10 +42,12 @@
         </view>
       <view class="hots_content">
         <view class="hot_item"
-        v-for="item in hots"
+        v-for="(item,index) in hots"
         :key="item.id"
         >
-        <image :src="item.thumb" mode="widthFix"></image>
+        <go-detail :list="hots" :index="index">
+          <image :src="item.thumb" mode="widthFix"></image>
+        </go-detail> 
         </view>
       </view>
     </view>
@@ -52,8 +56,12 @@
 
 <script>
 import moment from "moment";
-export default {
+import goDetail from "@/components/goDetail";
 
+export default {
+  components:{
+    goDetail
+  },
   data(){
     return{
       recommends:[],
